@@ -1,0 +1,19 @@
+Feature,Importance
+single_alert_amount_abs,0.8901908
+"single_alert_series_signature_tags_fission, webrender",0.054929126
+single_alert_series_signature_tags_webrender,0.01979718
+single_alert_new_value,0.0095775705
+single_alert_series_signature_suite_freq,0.008313657
+alert_summary_status,0.004398063
+single_alert_status,0.003971131
+single_alert_amount_pct,0.0035578678
+single_alert_prev_value,0.0025593797
+single_alert_t_value,0.0025572074
+single_alert_manually_created_True,0.00014794875
+"single_alert_series_signature_tags_cold, fission, interactive, webrender",0.0
+"single_alert_series_signature_tags_bytecode-cached, cold, fission, webrender",0.0
+"single_alert_series_signature_tags_bytecode-cached, fission, warm, webrender",0.0
+"single_alert_series_signature_tags_fission, warm, webrender",0.0
+"single_alert_series_signature_tags_cold, webrender",0.0
+"single_alert_series_signature_tags_cold, fission, webrender",0.0
+"single_alert_series_signature_tags_warm, webrender",0.0
