@@ -1,0 +1,3 @@
+Setting,Train Repo,Test Repo,Accuracy,Precision,Recall,F1-Score,ROC-AUC
+In-Distribution (autoland),autoland,autoland,0.9963221772710555,0.997545008183306,0.9942903752039152,0.9959150326797386,0.9998705213781769
+Cross-Repository (mozilla-*),autoland,"mozilla-central, mozilla-beta",0.9958321756043346,0.9905660377358491,0.996548748921484,0.9935483870967742,0.9999402396073493

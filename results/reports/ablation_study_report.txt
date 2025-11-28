@@ -1,0 +1,22 @@
+EXPERIMENT E3: FEATURE ABLATION STUDY
+======================================================================
+
+OBJECTIVE:
+Measure the contribution of different feature groups to regression detection
+
+FEATURE GROUPS:
+1. Magnitude features: 5 features
+2. Context features: 1 features
+3. Workflow features: 3 features
+
+RESULTS:
+        Combination  Num_Features  Accuracy  Precision   Recall  F1-Score  ROC-AUC
+     Only Magnitude             5  0.991106   0.989064 0.989930  0.989497 0.998490
+       Only Context             1  0.570687   0.493993 0.594133  0.539455 0.606908
+Magnitude + Context             6  0.997591   0.998682 0.995622  0.997150 0.999986
+       All Features             9  0.997406   0.997371 0.996497  0.996934 0.999982
+
+BEST PERFORMING COMBINATION:
+  Magnitude + Context
+  F1-Score: 0.9971
+  ROC-AUC: 1.0000
