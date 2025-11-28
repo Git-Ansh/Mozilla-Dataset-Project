@@ -120,7 +120,7 @@ Follow these steps to reproduce the experiments and results.
 Navigate to the project directory and start Jupyter:
 
 ```powershell
-cd "c:\Users\anshj\OneDrive\Documents\Anitgravity\Mozilla Dataset Project"
+cd "...\Mozilla Dataset Project"
 jupyter notebook
 ```
 
