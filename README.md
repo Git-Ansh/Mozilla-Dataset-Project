@@ -53,22 +53,57 @@ We conducted three key experiments to validate the model's robustness and unders
 
 ---
 
-## Project Structure
+## Detailed Notebook Guide
 
-*   `notebooks/`:
-    *   `01_explore_data.ipynb`: Initial EDA and understanding the dataset.
-    *   `02_preprocess_features.ipynb`: Cleaning and feature engineering.
-    *   `03_train_models.ipynb`: Training and tuning the XGBoost model (E1).
-    *   `04_feature_importance_analysis.ipynb`: Deep dive into what the model learned (SHAP/Permutation).
-    *   `05_cross_repository_experiment.ipynb`: Generalization tests (E2).
-    *   `06_feature_ablation_experiment.ipynb`: Feature group analysis (E3).
-*   `src/`:
-    *   `utils.py`: Shared utility functions for data loading and model initialization.
-*   `results/`:
-    *   `data/`: Processed datasets and markdown tables.
-    *   `models/`: Saved model artifacts.
-    *   `figures/`: Visualizations for reports.
-    *   `reports/`: Final written analysis.
+Here is a deep dive into the logic and content of each notebook in the pipeline.
+
+### 1. Data Exploration (`01_explore_data.ipynb`)
+*   **Purpose**: To understand the raw dataset structure, quality, and class distribution.
+*   **Key Steps**:
+    *   Loads the raw `alerts_data.csv`.
+    *   Visualizes the target variable balance (Regressions vs. Non-Regressions).
+    *   Analyzes missing values and data types.
+    *   Plots distributions of key numerical features like `amount_abs` and `t_value`.
+*   **Outcome**: Confirmed that the dataset is slightly imbalanced and identified `amount_abs` as a potentially strong predictor.
+
+### 2. Feature Engineering (`02_preprocess_features.ipynb`)
+*   **Purpose**: To transform raw data into a machine-learning-ready format.
+*   **Key Steps**:
+    *   **Imputation**: Fills missing values (e.g., -1 for missing numericals, 'Unknown' for categoricals).
+    *   **Encoding**: Converts categorical features (Repository, Platform, Suite) into numerical representations.
+    *   **Cleaning**: Removes irrelevant columns (IDs, timestamps) that could cause overfitting or leakage.
+*   **Outcome**: Produces `results/data/preprocessed_alerts.csv`, a clean feature table ready for training.
+
+### 3. Model Training & Tuning (`03_train_models.ipynb`)
+*   **Purpose**: To establish a baseline and train the final high-performance classifier (Experiment E1).
+*   **Key Steps**:
+    *   **Baseline Comparison**: Trains Logistic Regression, Random Forest, and XGBoost (default settings).
+    *   **Optimization**: Uses GridSearchCV to tune XGBoost hyperparameters (learning rate, max depth, etc.) with GPU acceleration.
+    *   **Evaluation**: Calculates Accuracy, Precision, Recall, F1-Score, and ROC-AUC on a held-out test set.
+*   **Outcome**: Saves the best model (`best_xgb_gpu_model.json`) which achieves >99% accuracy.
+
+### 4. Interpretability Analysis (`04_feature_importance_analysis.ipynb`)
+*   **Purpose**: To open the "black box" and understand *why* the model makes its decisions.
+*   **Key Steps**:
+    *   **Native Importance**: Plots XGBoost's internal Gain metric.
+    *   **Permutation Importance**: Shuffles features one by one to measure their impact on model accuracy.
+    *   **SHAP Analysis**: Uses Game Theory to calculate the exact contribution of each feature to individual predictions.
+*   **Outcome**: Proves that `single_alert_amount_abs` (magnitude) is the dominant driver of the model's predictions.
+
+### 5. Cross-Repository Generalization (`05_cross_repository_experiment.ipynb`)
+*   **Purpose**: To verify if the model can detect regressions on repositories it has never seen before (Experiment E2).
+*   **Key Steps**:
+    *   **Split by Repo**: Uses `autoland` data for training.
+    *   **Out-of-Sample Test**: Uses `mozilla-central` and `mozilla-beta` data exclusively for testing.
+    *   **Comparison**: Compares performance metrics between the training repo and the unseen test repos.
+*   **Outcome**: Demonstrates robust generalization, confirming the model learns universal performance regression patterns.
+
+### 6. Feature Ablation Study (`06_feature_ablation_experiment.ipynb`)
+*   **Purpose**: To determine which groups of features are actually necessary (Experiment E3).
+*   **Key Steps**:
+    *   **Grouping**: Categorizes features into "Magnitude" (statistical), "Context" (metadata), and "Workflow" (process state).
+    *   **Combinatorial Training**: Trains and evaluates models on every subset of these groups (e.g., Magnitude Only, Context Only).
+*   **Outcome**: Reveals that Context features alone are non-predictive (~57% accuracy), while Magnitude features alone achieve near-perfect performance (~99%), validating the "Magnitude is King" hypothesis.
 
 ---
 
